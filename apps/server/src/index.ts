@@ -1,10 +1,9 @@
-import dotenv from "dotenv";
-import app from "./app.js";
+import "dotenv/config";
 
-dotenv.config();
+import { httpServer } from "./server.js";
 
 const PORT = Number(process.env.PORT) || 3000;
 
-app.listen(PORT, () => {
+httpServer.listen(PORT, () => {
   console.log(`🚀 VidChat Server running on http://localhost:${PORT}`);
 });
