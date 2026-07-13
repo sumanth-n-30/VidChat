@@ -1,5 +1,8 @@
 import { Server } from "socket.io";
-import { Server as HTTPServer } from "http";
+import { Server as HTTPServer } from "node:http";
+
+import { registerSocketHandlers } from "./handlers.js";
+import { SocketEvents } from "./events.js";
 
 export function initializeSocket(server: HTTPServer) {
   const io = new Server(server, {
@@ -8,12 +11,8 @@ export function initializeSocket(server: HTTPServer) {
     },
   });
 
-  io.on("connection", (socket) => {
-    console.log("🟢 User connected:", socket.id);
-
-    socket.on("disconnect", () => {
-      console.log("🔴 User disconnected:", socket.id);
-    });
+  io.on(SocketEvents.CONNECTION, (socket) => {
+    registerSocketHandlers(socket);
   });
 
   return io;
